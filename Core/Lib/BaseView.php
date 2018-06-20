@@ -3,7 +3,7 @@
  *
  */
 namespace Core\Lib;
-use AppConfig;
+//use AppConfig;
 
 class BaseView
 {
