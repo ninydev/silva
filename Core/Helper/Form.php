@@ -28,11 +28,6 @@ class Form
     $this->id = $id;
   }
 
-  function __destruct (){
-    echo 'Форма уничтожена';
-  }
-
-
   /**
    * Создает запись о поле
    * @param [type] $type  [description]
@@ -42,7 +37,7 @@ class Form
    * @param string $value [description]
    * @param string $class [description]
    */
-  function addFild ($type, $name, $id, $label, $value = '', $class=''){
+  function addFild ($type, $name, $id, $label='', $value = '', $class=''){
     $fild['type'] = $type;
     $fild['name'] = $name;
     $fild['id'] = $id;
@@ -57,7 +52,7 @@ class Form
    * @return HTML код формы
    */
   function getForm (){
-    $res = '<div><form action="/index.php" method="' . $this->method . '" >';
+    $res = '<br/><div><form action="/index.php" method="' . $this->method . '" >';
     foreach ($this->filds as $fild) {
       //var_dump ($fild);
       switch ($fild['type']) {
@@ -69,13 +64,18 @@ class Form
           $res .= $this->buildLineFild ($fild);
           break;
 
+        case 'hidden':
+          $res .= $this->buildHiddenFild ($fild);
+          break;
+
+
         default:
           $res.= ' Неверный формат поля ';
           break;
       }
     }
-    $res.= '<input type="reset" />' . PHP_EOL;
-    $res.= '<input type="submit" /></div>' . PHP_EOL;
+    $res.= '<br/><input type="reset" />' . PHP_EOL;
+    $res.= '<br/><input type="submit" /></div>' . PHP_EOL;
 
     return $res;
   }
@@ -86,7 +86,19 @@ class Form
    * @return HTML код поля
    */
   function buildLineFild ($fild){
-    $res = '<label for="'. $fild['id'] .'">'. $fild['label'] .'</label>';
+    $res = '<br/><label for="'. $fild['id'] .'">'. $fild['label'] .'</label>';
+    $res.= '<input ' .
+    ' type="' . $fild['type'] . '" '.
+    ' name="' . $fild['name'] . '" ' .
+    ' id="' . $fild['id'] . '" ' .
+    ' class="' . $fild['class'] . '" ' .
+    ' />' . PHP_EOL;
+    return $res;
+  }
+
+
+  function buildHiddenFild ($fild){
+    $res = '';
     $res.= '<input ' .
     ' type="' . $fild['type'] . '" '.
     ' name="' . $fild['name'] . '" ' .

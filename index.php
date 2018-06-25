@@ -1,25 +1,21 @@
 <?php
 
+// начали процесс
 define('SILVA_START', microtime(true));
-include_once ('config.php');
+
+
+
+// Настройка автозагрузки,
+// В том числе и psr-4
 include_once ('vendor/autoload.php');
+
+// Загрузка нашего проекта
+// Загрузка и иннициализация всех систем
 include_once ('Core/boot.php');
 
+// Вывод результатов работы приложения на экран
+// - Касса
+$responce->getFull ();
 
-$myForm = new Core\Helper\Form ();
-$myForm->addFild('text', 'login', 'login', 'Login');
-$myForm->addFild('text', 'email', 'email', 'E-Mail');
-$myForm->addFild('password', 'pswd', 'pswd', 'Pswd:');
-
-echo $myForm->getForm ();
-
-
-
-$myForm1 = new Core\Helper\Form ();
-$myForm1->addFild('text', 'login', 'login', 'Логин');
-$myForm1->addFild('text', 'email', 'email', 'Пароль');
-$myForm1->addFild('password', 'pswd', 'pswd', 'Pswd:');
-
-echo $myForm1->getForm ();
-
+//var_dump($_SESSION);
 ?>
