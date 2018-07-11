@@ -8,6 +8,9 @@
 $request = new Core\Lib\Request();
 $responce = new Core\Lib\Response();
 
+// Соединение
+// $DB = Core\Lib\MySql::getInstance();
+
 
 /**
  * Взяли один из компанентов, и включили его в наш проект

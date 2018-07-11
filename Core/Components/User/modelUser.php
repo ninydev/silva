@@ -2,6 +2,7 @@
 namespace Core\Components\User;
 use Core\Lib\BaseModel;
 use Core\Lib\Request;
+use Core\Lib\MySql;
 
 
 /**
@@ -10,12 +11,28 @@ use Core\Lib\Request;
 class modelUser extends BaseModel
 {
   public $data;
+  public $user_id = 0;
+  private $table = 'user';
 
   function __construct()  {
-
+/*
     if (isset(Request::$data['_GET']['doLogin'])){
       $this->doLogin ();
     }
+    if (isset(Request::$data['_GET']['doLogout'])){
+      $this->doLogout();
+    }
+*/
+  }
+
+  function create (){
+    $DB = MySql::getInstance();
+    $data ['email'] = Request::$data['_GET']['email'];
+    $data ['nikname'] = Request::$data['_GET']['nikname'];
+    $data ['pswd'] = Request::$data['_GET']['pswd'];
+    $DB->insert ($this->table, $data);
+
+
   }
 
 
@@ -28,8 +45,14 @@ class modelUser extends BaseModel
       $_SESSION['user_id'] = 1;
       $_SESSION['user_name'] = "Admin Админович";
       $_SESSION['user_data'] = array ();
-      echo 'Вход выполнен';
+      header ('Location: /');
     }
+  }
+
+  function doLogout (){
+    // происходит выход из системы
+    session_destroy ();
+    header ('Location: /');
   }
 
 

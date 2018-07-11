@@ -75,7 +75,9 @@ class Form
       }
     }
     $res.= '<br/><input type="reset" />' . PHP_EOL;
-    $res.= '<br/><input type="submit" /></div>' . PHP_EOL;
+    $res.= '<br/><input type="submit" />' . PHP_EOL;
+    $res.= '</form></div>' . PHP_EOL;
+
 
     return $res;
   }
@@ -92,6 +94,7 @@ class Form
     ' name="' . $fild['name'] . '" ' .
     ' id="' . $fild['id'] . '" ' .
     ' class="' . $fild['class'] . '" ' .
+    ' value="' . $fild['value'] . '" ' .
     ' />' . PHP_EOL;
     return $res;
   }
@@ -104,6 +107,7 @@ class Form
     ' name="' . $fild['name'] . '" ' .
     ' id="' . $fild['id'] . '" ' .
     ' class="' . $fild['class'] . '" ' .
+    ' value="' . $fild['value'] . '" ' .
     ' />' . PHP_EOL;
     return $res;
   }
