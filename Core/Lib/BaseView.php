@@ -18,6 +18,14 @@ class BaseView
   }
 
   public function put ($data, $position){
+    if (isset($data['error'])){
+      Response::$data['error'] = $data['error'];
+      unset($data['error']);
+    }
+    if (isset($data['msg'])){
+      Response::$data['msg'] = $data['msg'];
+      unset($data['msg']);
+    }
     Response::$data[$position] = $data;
     //var_dump (  Response::$data);
   }

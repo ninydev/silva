@@ -11,7 +11,8 @@ class MySql
   private static $objMySql; // ссылка на соединение с базой данных
   private $sql;
   private $responce;
-
+  private $errno = 0;
+  private $error = '';
 
   /**
    * Запрещаю создавать себя и клонировать
@@ -47,18 +48,75 @@ class MySql
   }
 
 
+  /**
+   * Добавить эелеемнт в табоицу
+   * @param  [type] $table [description]
+   * @param  [type] $data  [description]
+   * @return [type]        [description]
+   */
   function insert ($table, $data){
     $val = "('" . implode("', '" , $data) . "')";
     $key = " (`".implode("`, `", array_keys($data))."`)";
 
     $sql = "INSERT INTO " . $table ." " . $key . " VALUES  " . $val . ";";
-    echo $sql;
-    $this->query ($sql);
+    $res = $this->query ($sql);
+
+    if (!$res){
+      $ret ['error'] = $this->errno . ' ' . $this->error;
+    } else {
+      $ret ['msg'] = $this->errno . ' ' . $this->error;
+      $ret ['msg'].= ' Create ID' . self::$objMySql->insert_id;
+      $ret ['id'] = self::$objMySql->insert_id;
+    }
+
+    return $ret;
 
   }
 
+  /**
+   * Построение запроса на чтение с ограничением
+   * @param  [type] $table [description]
+   * @param  [type] $data  [description]
+   * @return [type]        [description]
+   */
+  function selectWhere($table, $data){
+
+    $sql = "SELECT * FROM ". $table;
+    //SELECT * FROM `user` WHERE (`email` = 'keeper@ninydev.com') AND (`pswd` = '1inRIO')
+    //var_dump ($data);
+    foreach ($data as $key => $value) {
+      $where [] = " (`" . $key . "` = '" . $value . "') ";
+    }
+    $w = implode(" AND " , $where);
+    if (strlen($w) > 0){
+      $sql.= " WHERE " . $w;
+    }
+
+    $res = $this->query ($sql);
+
+    if (!$res){
+      $ret ['error'] = $this->errno . ' ' . $this->error;
+    }else {
+      $ret ['data'] = $res->fetch_all(MYSQLI_ASSOC);
+      $ret ['num_rows'] = $res->num_rows;
+      $ret ['full'] = $res;
+    }
+
+    return $ret;
+  }
+
+  /**
+   * Отправить SQL запрос в базу
+   * @param  string $str [description]
+   * @return [type]      [description]
+   */
   function query ($str = ''){
-    self::$objMySql->query ($str);
+    $res = self::$objMySql->query ($str);
+//    if (!$res){
+      $this->errno = self::$objMySql->errno;
+      $this->error = self::$objMySql->error;
+//    }
+    return $res;
   }
 
 }

@@ -19,3 +19,5 @@ $responce = new Core\Lib\Response();
  * - Положили блюдо в поднос
  */
 $curUser = new Core\Components\User\controllerUser();
+
+require ('route/web.php');

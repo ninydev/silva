@@ -19,5 +19,14 @@ class Request {
       self::$data['_SESSION'] = array ();
   }
 
+  public function get ($name){
+//    echo $name . ' ' . self::$data['_GET'][$name];
+    if (isset (self::$data['_GET'][$name]))
+      return self::$data['_GET'][$name];
+    elseif (isset (self::$data['_POST'][$name]))
+      return self::$data['_POST'][$name];
+    else return null;
+  }
+
 
 }

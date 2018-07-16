@@ -18,6 +18,8 @@
 
       <div class="col-sm-9">
         <?php
+        include ($data['tplPath'] . '/error.tpl.php');
+        include ($data['tplPath'] . '/msg.tpl.php');
         include ($data['tplPath'] . '/content.tpl.php');
         ?>
       </div>
