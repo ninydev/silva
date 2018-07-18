@@ -20,32 +20,6 @@ class controllerUser extends BaseController
   function __construct(){
     $this->view = new viewUser();
     $this->model = new modelUser();
-
-    /**
-     * Перехватываю передачу данных в контроллер
-     */
-    //var_dump (Request::$data);
-//    echo 'start controller';
-    if(       Request::get('controller') == 'User' &&
-              Request::get('do') == 'loginUser' )
-              {
-                //echo 'start doLogin';
-                $res = $this->model->doLogin (Request::get ('email'), Request::get('pswd')  );
-              }
-    if(       Request::get('controller') == 'User' &&
-              Request::get('do') == 'logout' )
-              {
-              $res = $this->model->doLogout ();
-              }
-
-
-
-
-
-    if ($this->model->isLogin() )
-      $this->view->buildWelcome ();
-    else
-      $this->view->buildForm ();
   }
 
   /**
@@ -58,24 +32,15 @@ class controllerUser extends BaseController
      $this->view->put ($res, 'content');
    }
 
-   /**
-    * Создаем пользователя
-    */
-    function echoRegisterForm(){
-//      $data = Request::$data['_GET'];
-//      // Проверки полученных данных с формы
-//      $res = $this->model->create($data);
-      $this->view->buildRegisterForm();
-    }
 
     function echoEditForm (){
-      $data = $this->model->getData();
-      $this->view->buildEditForm($data);
     }
 
     function update (){
-      $data ['nikname'] = Request::get('nikname');
+      // тут меняется
+      $data ['city_name'] = Request::get('nikname');
       $data ['pswd'] = Request::get('pswd');
+
       $res =  $this->model->update ($data);
       if ($res['error'] == 0) {
         $this->model->saveUserToSession ($this->model->user_id, $data);

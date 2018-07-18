@@ -13,6 +13,17 @@ if( isset(Request::$data['_GET']['controller']) &&
                   $curUser->create();
                 break;
 
+                case 'edit':
+                case 'editUser':
+                    $curUser->echoEditForm();
+                  break;
+
+                //case 'doUpdateUser':
+                case 'doUpdateUser':
+                    $curUser->update();
+                  break;
+
+
               default:
                 // code...
                 break;

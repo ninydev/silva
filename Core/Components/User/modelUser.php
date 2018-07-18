@@ -15,14 +15,21 @@ class modelUser extends BaseModel
   private $table = 'user';
 
   function __construct()  {
-/*
-    if (isset(Request::$data['_GET']['doLogin'])){
-      $this->doLogin ();
-    }
-    if (isset(Request::$data['_GET']['doLogout'])){
-      $this->doLogout();
-    }
-*/
+//    $this->data = Request::$data['_SESSION']['user_data'];
+//    $this->user_id = Request::$data['_SESSION']['user_id'];
+    $this->data = Request::get ('user_data');
+    $this->user_id = Request::get ('user_id');
+  }
+
+  public function update ($data){
+    $DB = MySql::getInstance();
+    $ret = $DB->update ($this->table, $data, $this->user_id );
+    return $ret;
+
+  }
+
+  public function getData(){
+    return $this->data;
   }
 
   function create (){
@@ -77,6 +84,14 @@ class modelUser extends BaseModel
     }
 
 
+
+  }
+
+  function saveUserToSession ($id, $data){
+    $_SESSION ['user_id'] = $id;
+    $_SESSION ['user_data'] = $data;
+    $this->data = $data;
+    $this->user_id = $id;
 
   }
 

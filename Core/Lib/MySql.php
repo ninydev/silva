@@ -48,6 +48,39 @@ class MySql
   }
 
 
+  function update ($table, $data, $where){
+//UPDATE `user` SET `nikname` = 'Keeper', `pswd` = '1inRIO' WHERE `user`.`id` = 20
+    $sql = "UPDATE " . $table ." SET ";
+
+    // Строит строку для изменения данных
+    foreach ($data as $key => $value) {
+      $set [] = " `" . $key . "` = '" . $value . "' ";
+    }
+    $set = implode(" , " , $set);
+
+    if (is_array($where) ){
+        foreach ($where as $key => $value) {
+          $where [] = " ( `" . $key . "` = '" . $value . "') ";
+        }
+        $where = implode("  AND " , $where);
+
+    }else {
+      $where = " WHERE `id` =  '" . $where . "' ";
+    }
+
+    $sql.= $set . $where;
+    $res = $this->query ($sql);
+
+    if (!$res){
+      $ret ['error'] = $this->errno . ' ' . $this->error;
+    } else {
+      $ret ['error']  = 0;
+      $ret ['msg'] = $this->errno . ' ' . $this->error;
+    }
+
+    return $ret;
+  }
+
   /**
    * Добавить эелеемнт в табоицу
    * @param  [type] $table [description]
@@ -111,6 +144,7 @@ class MySql
    * @return [type]      [description]
    */
   function query ($str = ''){
+    // echo $str;
     $res = self::$objMySql->query ($str);
 //    if (!$res){
       $this->errno = self::$objMySql->errno;

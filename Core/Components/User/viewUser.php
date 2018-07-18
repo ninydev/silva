@@ -26,11 +26,28 @@ class viewUser extends BaseView
   /**
    * Строит форму ввода логина и пароля
    */
+  function buildEditForm ($data){
+    //$this->dataForm = '<h3> Тут когда то будет форма логина </h3>';
+//    var_dump($data);
+    $editForm = new Form ('userEdit');
+    $editForm->addFild('hidden', 'controller', '' , '', 'User');
+    $editForm->addFild('hidden', 'do',  '' , '', 'doUpdateUser');
+    $editForm->addFild('hidden', 'user_id',  '' , '', $data['id']);
+//    $regForm->addFild('text', 'email', 'email', 'E-mail');
+    $editForm->addFild('text', 'nikname','' , 'Ваш ник', $data['nikname']);
+    $editForm->addFild('password', 'pswd','' , 'pswd', $data['pswd']);
+    $this->put ($editForm->getForm(), 'content');
+  }
+
+
+  /**
+   * Строит форму ввода логина и пароля
+   */
   function buildForm (){
     //$this->dataForm = '<h3> Тут когда то будет форма логина </h3>';
     $loginForm = new Form ('userLogin');
-    $loginForm->addFild('hidden', 'controller', 1 , '', 'User');
-    $loginForm->addFild('hidden', 'do',  2 , '', 'loginUser');
+    $loginForm->addFild('hidden', 'controller', '' , '', 'User');
+    $loginForm->addFild('hidden', 'do',  '' , '', 'loginUser');
     $loginForm->addFild('text', 'email', 'email', 'E-mail');
     $loginForm->addFild('password', 'pswd', 'pswd', 'Пароль');
     $dataForm = $loginForm->getForm();
@@ -44,7 +61,8 @@ class viewUser extends BaseView
    */
   function buildWelcome (){
     $dataForm = 'Welcome';
-    $dataForm.= '<a href="/?controller=User&do=logout" >Выйти </a>';
+    $dataForm.= '<a href="/?controller=User&do=edit" > Редактировать </a> ';
+    $dataForm.= '<a href="/?controller=User&do=logout" >Выйти </a> ';
     $this->put ($dataForm, 'column_left');
   }
 

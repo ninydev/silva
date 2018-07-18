@@ -25,6 +25,8 @@ class Request {
       return self::$data['_GET'][$name];
     elseif (isset (self::$data['_POST'][$name]))
       return self::$data['_POST'][$name];
+      elseif (isset (self::$data['_SESSION'][$name]))
+        return self::$data['_SESSION'][$name];      
     else return null;
   }
 
