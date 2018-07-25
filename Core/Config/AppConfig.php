@@ -18,7 +18,7 @@ class AppConfig {
    */
   static $DB_HOST = 'localhost';
   static $DB_PORT = '3306';
-  static $DB_USER = 'c20db';
-  static $DB_PSWD = 'Qwerty!23';
-  static $DB_NAME = 'c20db';  
+  static $DB_USER = 'c25db';
+  static $DB_PSWD = 'Yua0205Yua';
+  static $DB_NAME = 'c25db';
 }

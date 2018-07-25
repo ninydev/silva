@@ -20,4 +20,5 @@ $responce = new Core\Lib\Response();
  */
 $curUser = new Core\Components\User\controllerUser();
 
+
 require ('route/web.php');

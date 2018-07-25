@@ -48,7 +48,7 @@ class MySql
   }
 
 
-  function update ($table, $data, $where){
+  function update ($table, $data, $where) {
 //UPDATE `user` SET `nikname` = 'Keeper', `pswd` = '1inRIO' WHERE `user`.`id` = 20
     $sql = "UPDATE " . $table ." SET ";
 
@@ -112,17 +112,19 @@ class MySql
    * @param  [type] $data  [description]
    * @return [type]        [description]
    */
-  function selectWhere($table, $data){
+  function selectWhere($table, $data = 0){
 
     $sql = "SELECT * FROM ". $table;
     //SELECT * FROM `user` WHERE (`email` = 'keeper@ninydev.com') AND (`pswd` = '1inRIO')
     //var_dump ($data);
-    foreach ($data as $key => $value) {
-      $where [] = " (`" . $key . "` = '" . $value . "') ";
-    }
-    $w = implode(" AND " , $where);
-    if (strlen($w) > 0){
-      $sql.= " WHERE " . $w;
+    if (is_array($data)){
+      foreach ($data as $key => $value) {
+        $where [] = " (`" . $key . "` = '" . $value . "') ";
+      }
+      $w = implode(" AND " , $where);
+      if (strlen($w) > 0){
+        $sql.= " WHERE " . $w;
+      }
     }
 
     $res = $this->query ($sql);
@@ -137,6 +139,38 @@ class MySql
 
     return $ret;
   }
+
+
+  function deleteWhere ($table, $data){
+
+    $sql = "DELETE FROM ". $table;
+    //SELECT * FROM `user` WHERE (`email` = 'keeper@ninydev.com') AND (`pswd` = '1inRIO')
+    //var_dump ($data);
+    if (is_array($data)){
+      foreach ($data as $key => $value) {
+        $where [] = " (`" . $key . "` = '" . $value . "') ";
+      }
+      $w = implode(" AND " , $where);
+      if (strlen($w) > 0){
+        $sql.= " WHERE " . $w;
+      }
+    }
+
+    $res = $this->query ($sql);
+
+    if (!$res){
+      $ret ['error'] = $this->errno . ' ' . $this->error;
+    }else {
+      $ret ['msg'] = 'Удалилось';
+//      $ret ['data'] = $res->fetch_all(MYSQLI_ASSOC);
+//      $ret ['num_rows'] = $res->num_rows;
+//      $ret ['full'] = $res;
+    }
+
+    return $ret;
+
+  }
+
 
   /**
    * Отправить SQL запрос в базу

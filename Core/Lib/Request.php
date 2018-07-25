@@ -7,6 +7,7 @@ use Core\Config\AppConfig;
 
 class Request {
   static $data;
+  static $user_id;
 
   public function __construct (){
     GLOBAL $_SESSION;
@@ -17,6 +18,7 @@ class Request {
       self::$data['_SESSION'] = $_SESSION;
     else
       self::$data['_SESSION'] = array ();
+    self::$user_id = $_SESSION['user_id'];
   }
 
   public function get ($name){
@@ -26,7 +28,7 @@ class Request {
     elseif (isset (self::$data['_POST'][$name]))
       return self::$data['_POST'][$name];
       elseif (isset (self::$data['_SESSION'][$name]))
-        return self::$data['_SESSION'][$name];      
+        return self::$data['_SESSION'][$name];
     else return null;
   }
 

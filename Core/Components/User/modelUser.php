@@ -107,10 +107,16 @@ class modelUser extends BaseModel
 //    if ($this->user_id != 0){
 //      return true;
 //    }
-    if (isset(Request::$data['_SESSION']['user_id'])){
+/*    if (isset(Request::$data['_SESSION']['user_id'])){
       $this->user_id = Request::$data['_SESSION']['user_id'];
       $this->data = Request::$data['_SESSION']['user_data'];
       return true;
+*/
+    if (isset($_SESSION ['user_id'])){
+      $this->user_id = $_SESSION ['user_id'];
+      $this->data = $_SESSION ['user_data'];
+      return true;
+
     }else {
       $this->data['user_id'] = 0;
       $this->data['user_name'] = 'Гость';

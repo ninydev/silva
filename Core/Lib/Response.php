@@ -24,7 +24,7 @@ class Response
     self::$data['head']['title'] = 'Мои ДЗ';
 
     $css [] = 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css';
-    $css [] = 'css/mymenu.css';
+    //$css [] = 'css/mymenu.css';
       self::$data['head']['css'] = $css;
 
     $js[] = 'https://code.jquery.com/jquery-3.3.1.slim.min.js';

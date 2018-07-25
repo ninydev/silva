@@ -10,7 +10,7 @@ use Core\Lib\Request;
  *
  * - Блюдо
  */
-class controllerUser extends BaseController
+class controllerCity extends BaseController
 {
 
   public $dataForm; // HTML код нашей формы
@@ -18,8 +18,8 @@ class controllerUser extends BaseController
   public $model; // Экземпляр view
 
   function __construct(){
-    $this->view = new viewUser();
-    $this->model = new modelUser();
+    $this->view = new viewCity();
+    $this->model = new modelCity();
   }
 
   /**
@@ -33,17 +33,31 @@ class controllerUser extends BaseController
    }
 
 
-    function echoEditForm (){
+    function echoCityForm (){
+      $data = $this->model->getData();
+      $this->view->buildCityForm($data);
     }
 
-    function update (){
-      // тут меняется
-      $data ['city_name'] = Request::get('nikname');
-      $data ['pswd'] = Request::get('pswd');
+    /**
+     * Вывести список городов
+     * @return
+     */
+    function echoAll (){
+      $res = $this->model->all();
+      $this->view->echoAll ($res );
+      //$this->view->put ($res, 'content');
+    }
 
+    function doDel ($id){
+      $res = $this->model->delete($id);
+      $this->view->put ($res, 'content');
+    }
+
+    /*function update (){
+      $data ['city_name'] = Request::get('city_name');
       $res =  $this->model->update ($data);
       if ($res['error'] == 0) {
-        $this->model->saveUserToSession ($this->model->user_id, $data);
+        $this->model->saveUserToSession ($this->model->city_id, $data);
         $out['msg'] = 'Данные обновлены';
         $this->view->put ($out, 'content');
       }else {
@@ -51,11 +65,11 @@ class controllerUser extends BaseController
         $this->view->put ($out, 'content');
 
       }
-      $data['id'] =$this->model->user_id;
-      $this->view->buildEditForm($data);
+      $data['id'] =$this->model->city_id;
+      $this->view->buildCityForm($data);
 
 
-    }
+    }*/
 
 
 }

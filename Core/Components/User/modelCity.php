@@ -11,7 +11,7 @@ use Core\Lib\MySql;
 class modelCity extends BaseModel
 {
   public $data;
-  public $user_id = 0;
+  public $city_id = 0;
   private $table = 'city';
 
   function __construct()  {
@@ -19,7 +19,7 @@ class modelCity extends BaseModel
 
   public function update ($data){
     $DB = MySql::getInstance();
-    $ret = $DB->update ($this->table, $data, $this->user_id );
+    $ret = $DB->update ($this->table, $this->data, $this->city_id );
     return $ret;
 
   }
@@ -30,8 +30,24 @@ class modelCity extends BaseModel
 
   function create ($data){
     $DB = MySql::getInstance();
-    $ret = $DB->insert ($this->table, $data);
+    $this->data ['city_name'] = Request::$data['_GET']['city_name'];
+    $ret = $DB->insert ($this->table, $this->data);
     return $ret;
+
+  }
+
+  function all () {
+    $DB = MySql::getInstance();
+//    $this->data ['city_name'] = Request::$data['_GET']['city_name'];
+//    $ret = $DB->insert ($this->table, $this->data);
+    $ret = $DB->selectWhere($this->table);
+    return $ret;
+  }
+
+  function delete ($id){
+    $DB = MySql::getInstance();
+    $data['id'] = $id;
+    return $DB->deleteWhere ($this->table, $data);
   }
 
 }

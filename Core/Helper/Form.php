@@ -28,6 +28,11 @@ class Form
     $this->id = $id;
   }
 
+/**  function __destruct (){
+    echo 'Форма уничтожена';
+  }
+**/
+
   /**
    * Создает запись о поле
    * @param [type] $type  [description]
@@ -37,14 +42,16 @@ class Form
    * @param string $value [description]
    * @param string $class [description]
    */
-  function addFild ($type, $name, $id, $label='', $value = '', $class=''){
+  function addFild ($type, $name, $id, $label, $value = '', $class = '', $array = ''){
     $fild['type'] = $type;
     $fild['name'] = $name;
     $fild['id'] = $id;
     $fild['label'] = $label;
     $fild['value'] = $value;
     $fild['class'] = $class;
+    $fild['array'] = $array;
     $this->filds[] = $fild;
+
   }
 
   /**
@@ -52,32 +59,34 @@ class Form
    * @return HTML код формы
    */
   function getForm (){
-    $res = '<br/><div><form action="/index.php" method="' . $this->method . '" >';
+    $res = '<div class="form-group"><form action="index.php" method="' . $this->method . '" >';
     foreach ($this->filds as $fild) {
-      //var_dump ($fild);
       switch ($fild['type']) {
         case 'text':
         case 'password':
-        case 'radio':
         case 'submit':
         case 'reset':
+        case 'email':
           $res .= $this->buildLineFild ($fild);
           break;
-
-        case 'hidden':
-          $res .= $this->buildHiddenFild ($fild);
+        case 'select':
+          $res .= $this->buildSelectFild ($fild);
           break;
-
+        case 'radio':
+        case 'checkbox':
+          $res .= $this->buildLineFildRadioChekbox($fild);
+          break;
+          case 'hidden':
+            $res .= $this->buildHiddenFild ($fild);
+            break;
 
         default:
           $res.= ' Неверный формат поля ';
           break;
       }
     }
-    $res.= '<br/><input type="reset" />' . PHP_EOL;
-    $res.= '<br/><input type="submit" />' . PHP_EOL;
-    $res.= '</form></div>' . PHP_EOL;
-
+    $res.= '<br /><input type="reset" class="btn btn-danger"/>' . PHP_EOL;
+    $res.= '<input type="submit" class="btn btn-success"/></div>' . PHP_EOL;
 
     return $res;
   }
@@ -88,17 +97,40 @@ class Form
    * @return HTML код поля
    */
   function buildLineFild ($fild){
-    $res = '<br/><label for="'. $fild['id'] .'">'. $fild['label'] .'</label>';
+    $res = '<br /><label for="'. $fild['id'] .'">'. $fild['label'] .'</label>';
     $res.= '<input ' .
     ' type="' . $fild['type'] . '" '.
     ' name="' . $fild['name'] . '" ' .
     ' id="' . $fild['id'] . '" ' .
     ' class="' . $fild['class'] . '" ' .
-    ' value="' . $fild['value'] . '" ' .
     ' />' . PHP_EOL;
     return $res;
   }
 
+  /*function buildLineFildRadioChekbox ($fild){
+
+    for ($i = 0; $i < count($fild['name']); $i++) {
+      <input type="checkbox" class="checkbox" id="checkbox" />
+      <label for="checkbox">Я переключаю чекбокс</label>
+    }
+
+    return $res;
+  }
+*/
+  function buildSelectFild ($fild){
+//    var_dump ($fild['value']);
+    $res = '<br /><label for="'. $fild['id'] .'">'. $fild['label'] .'</label>';
+    $res.= '<select ' .
+    ' name="' . $fild['name'] . '" ' .
+    ' id="' . $fild['id'] . '" ' .
+    ' class="' . $fild['class'] . '" ' .
+    ' />' . PHP_EOL;
+    foreach ($fild['value'] as $value) {
+        $res.= '<option value ="' . $value['id'] . '">'. $value['city_name'] .'</option>'. PHP_EOL;
+    }
+    $res.= '</select>' . PHP_EOL;
+    return $res;
+  }
 
   function buildHiddenFild ($fild){
     $res = '';

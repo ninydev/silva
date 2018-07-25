@@ -60,9 +60,11 @@ class viewUser extends BaseView
    * Строит для зарегистрированного пользователя меню
    */
   function buildWelcome (){
-    $dataForm = 'Welcome';
-    $dataForm.= '<a href="/?controller=User&do=edit" > Редактировать </a> ';
-    $dataForm.= '<a href="/?controller=User&do=logout" >Выйти </a> ';
+    $dataForm = 'Welcome <br/>' ;
+    $dataForm.= '<a href="/?controller=User&do=edit" > Редактировать </a> <br/> ' . PHP_EOL;
+    $dataForm.= '<a href="/?controller=City&do=echoAll" > Города </a> <br/>' . PHP_EOL;
+    $dataForm.= '<a href="/?controller=Address&do=echoAll" > Адреса </a> <br/>' . PHP_EOL;
+    $dataForm.= '<a href="/?controller=User&do=logout" >Выйти </a> <br/>' . PHP_EOL;
     $this->put ($dataForm, 'column_left');
   }
 
