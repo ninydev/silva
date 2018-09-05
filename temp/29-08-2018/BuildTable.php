@@ -5,11 +5,18 @@
 class BuildTable
 {
   public $data;
+  public $is_Colspan;
+  public $is_Rowspan;
+  public $is_Class;
+  public $is_ID;
+  public $is_Separator;
+
   public $tableCss = '';
   public $tableID = '';
   public $tableBorder = 1;
 
   public $flagDoEdit = false;
+  public $flagShowCounter = false;
   public $urlDoEdit = 'index.php?doEdit=';
   public $colDoEdit = 0;
 
@@ -47,9 +54,29 @@ class BuildTable
     for ($i = 0; $i< count($this->data); $i++){
       $ret.= '<tr>';
 
+      if ($this->flagShowCounter){
+        $ret.= '<td>'. $i .'</td>';
+      }
+
+
       for ($j = 0; $j < count ($this->data[$i]); $j++){
-        $ret.= '<td>';
-        $ret.= $this->data[$i][$j];
+        // Добавление колспана
+        $ret.= '<td';
+        if (isset($this->is_Colspan[$i][$j])) {
+          $ret.= ' colspan="'.$this->is_Colspan[$i][$j]  .' "';
+        }
+        if (isset($this->is_Class[$i][$j])) {
+          $ret.= ' class="'.$this->is_Class[$i][$j]  .' "';
+        }
+        if (isset($this->is_ID[$i][$j])) {
+          $ret.= ' id="'.$this->is_ID[$i][$j]  .' "';
+        }
+        if (isset($this->is_Rowspan[$i][$j])) {
+          $ret.= ' rowspan="'.$this->is_Rowspan[$i][$j]  .' "';
+        }
+
+        $ret.= '>';
+        $ret.= $this->data[$i][$j]; // вывод данных из массива в ячейку таблицы
         $ret.= '</td>';
       }
 
