@@ -17,5 +17,8 @@
             "name": "Backend 2",
             "email": "nikitin_a@itstep.org"
         }
-    ]
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^7.3"
+    }
 }
